@@ -11,12 +11,11 @@ import { useGetCategoryOption } from '../hooks/useGetCategoryOption';
 import TextArea from 'antd/es/input/TextArea';
 import moment from 'moment';
 import { useUpdateProductMutation } from '../redux/api/baseApi';
-import Loading from './Loading';
 
 const ProductUpadateModelForm = ({ data }: object) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const { categoryOption } = useGetCategoryOption();
-	const [updateProduct, { data: result, isLoading, error }] = useUpdateProductMutation();
+	const [updateProduct, { data: result, isLoading }] = useUpdateProductMutation();
 
 	const showModal = () => {
 		setIsModalOpen(true);
@@ -77,7 +76,7 @@ const ProductUpadateModelForm = ({ data }: object) => {
 			<Modal
 				title="Product Update"
 				open={isModalOpen}
-				okText={"Done"}
+				okText={'Done'}
 				// okType='none'
 				onOk={handleOk}
 				onCancel={handleCancel}
