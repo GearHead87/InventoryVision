@@ -12,11 +12,15 @@ export const baseApi = createApi({
 		}),
 		getProductDetails: builder.query({
 			query: (id) => {
-				console.log(id);
 				return { url: `/products/${id}`, method: 'GET' };
+			},
+		}),
+		getCategoriesName: builder.query({
+			query: () => {
+				return { url: `/products/categories`, method: 'GET' };
 			},
 		}),
 	}),
 });
 
-export const { useGetAllProductsQuery, useGetProductDetailsQuery } = baseApi;
+export const { useGetAllProductsQuery, useGetProductDetailsQuery, useGetCategoriesNameQuery } = baseApi;

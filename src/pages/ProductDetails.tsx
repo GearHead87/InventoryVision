@@ -3,6 +3,7 @@ import { useGetProductDetailsQuery } from '../redux/api/baseApi';
 
 import { Avatar, Card } from 'antd';
 import ProductUpadateModelForm from '../components/ProductUpadateModelForm';
+import Loading from '../components/Loading';
 
 const { Meta } = Card;
 
@@ -10,9 +11,8 @@ const ProductDetails = () => {
 	const { id } = useParams();
 	const { data, isLoading, isError } = useGetProductDetailsQuery(id);
 	if (isLoading) {
-		return <p>Loading....</p>;
+		return <Loading />;
 	}
-	console.log(data);
 	return (
 		<div>
 			<Card
@@ -28,7 +28,7 @@ const ProductDetails = () => {
 					// <div className="flex items-center justify-center gap-4 hover:bg-cyan-100 mx-auto px-6 py-2 w-fit rounded-lg">
 					// 	<p className="text-lg font-bold">Edit</p>
 					// </div>,
-					<ProductUpadateModelForm />,
+					<ProductUpadateModelForm data={data} />,
 				]}
 			>
 				<Meta
