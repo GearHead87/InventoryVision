@@ -9,7 +9,7 @@ const { Meta } = Card;
 
 const ProductDetails = () => {
 	const { id } = useParams();
-	const { data, isLoading, isError } = useGetProductDetailsQuery(id);
+	const { data, isLoading } = useGetProductDetailsQuery(id);
 	if (isLoading) {
 		return <Loading />;
 	}
@@ -25,9 +25,6 @@ const ProductDetails = () => {
 					/>
 				}
 				actions={[
-					// <div className="flex items-center justify-center gap-4 hover:bg-cyan-100 mx-auto px-6 py-2 w-fit rounded-lg">
-					// 	<p className="text-lg font-bold">Edit</p>
-					// </div>,
 					<ProductUpadateModelForm data={data} />,
 				]}
 			>

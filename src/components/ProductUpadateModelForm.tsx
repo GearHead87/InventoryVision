@@ -1,14 +1,22 @@
 import { Button, Modal, Form, Input, Select, InputNumber } from 'antd';
-import { EditOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+	EditOutlined,
+	LoadingOutlined,
+	MinusCircleOutlined,
+	PlusOutlined,
+} from '@ant-design/icons';
 import type { FormProps } from 'antd';
 import { useState } from 'react';
 import { useGetCategoryOption } from '../hooks/useGetCategoryOption';
 import TextArea from 'antd/es/input/TextArea';
 import moment from 'moment';
+import { useUpdateProductMutation } from '../redux/api/baseApi';
+import Loading from './Loading';
 
 const ProductUpadateModelForm = ({ data }: object) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const { categoryOption } = useGetCategoryOption();
+	const [updateProduct, { data: result, isLoading, error }] = useUpdateProductMutation();
 
 	const showModal = () => {
 		setIsModalOpen(true);
@@ -51,7 +59,9 @@ const ProductUpadateModelForm = ({ data }: object) => {
 				};
 			}),
 		};
-		console.log('Success:', updatedValues);
+		console.log('Updated Value =>', updatedValues);
+		updateProduct({ id: data.id, updatedValues });
+		console.log('Result From API =>', result);
 	};
 
 	const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
@@ -64,7 +74,14 @@ const ProductUpadateModelForm = ({ data }: object) => {
 				<EditOutlined key="edit" style={{ fontSize: '24px' }} />
 				Edit Product
 			</Button>
-			<Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+			<Modal
+				title="Product Update"
+				open={isModalOpen}
+				okText={"Done"}
+				// okType='none'
+				onOk={handleOk}
+				onCancel={handleCancel}
+			>
 				<Form
 					name="basic"
 					labelCol={{ span: 8 }}
@@ -200,7 +217,13 @@ const ProductUpadateModelForm = ({ data }: object) => {
 
 					<Form.Item wrapperCol={{ offset: 8, span: 16 }}>
 						<Button type="primary" htmlType="submit">
-							Submit
+							{isLoading ? (
+								<span>
+									<LoadingOutlined /> Loading...{' '}
+								</span>
+							) : (
+								'Submit'
+							)}
 						</Button>
 					</Form.Item>
 				</Form>

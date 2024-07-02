@@ -20,7 +20,18 @@ export const baseApi = createApi({
 				return { url: `/products/categories`, method: 'GET' };
 			},
 		}),
+		updateProduct: builder.mutation({
+			query: ({ id, updatedValues }) => {
+				console.log(id, updatedValues);
+				return { url: `/products/${id}`, method: 'PATCH', body: updatedValues };
+			},
+		}),
 	}),
 });
 
-export const { useGetAllProductsQuery, useGetProductDetailsQuery, useGetCategoriesNameQuery } = baseApi;
+export const {
+	useGetAllProductsQuery,
+	useGetProductDetailsQuery,
+	useGetCategoriesNameQuery,
+	useUpdateProductMutation,
+} = baseApi;
