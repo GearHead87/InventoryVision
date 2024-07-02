@@ -1,5 +1,6 @@
 import { Button, Space, Table, TableProps } from 'antd';
 import { useGetAllProductsQuery } from '../redux/api/baseApi';
+import { Link } from 'react-router-dom';
 
 
 interface ProductDataType {
@@ -28,9 +29,11 @@ const columns: TableProps<ProductDataType>['columns'] = [
 	{
 		title: 'Action',
 		key: 'action',
-		render: () => (
+		render: (_, render) => (
 			<Space size="middle">
+                <Link to={`/product/${render.id}`}>
 				<Button >View Details</Button>
+                </Link>
 			</Space>
 		),
 	},
@@ -45,7 +48,7 @@ const ProductListTable = () => {
     }
 	return (
 		<div>
-			<Table columns={columns} dataSource={data.products}  />;
+			<Table columns={columns} dataSource={data.products} className='max-w-screen-lg mx-auto'  />;
             {/* <Pagination align='center' defaultCurrent={1} total={50} /> */}
 		</div>
 	);
