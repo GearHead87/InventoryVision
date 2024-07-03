@@ -2,8 +2,8 @@
 
 InventoryVision is a frontend web application designed to manage inventory and track product information effectively.
 
-<!-- [InventoryVision](https://inventoryvision.netlify.app/){:target="_blank" rel="noopener"} -->
-### Live Link: <a href="https://inventoryvision.netlify.app/" target="_blank">InventoryVision</a>
+### Link Link:  [InventoryVision](https://inventoryvision.netlify.app/){:target="_blank" rel="noopener"}
+<!-- ### Live Link: <a href="https://inventoryvision.netlify.app/" target="_blank">InventoryVision</a> -->
 
 ## Features
 
