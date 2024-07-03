@@ -40,6 +40,10 @@ export interface IProduct {
 	thumbnail: string;
 }
 
+interface TProducts {
+	products: IProduct[];
+}
+
 export interface IUpdateProductValues {
 	title?: string;
 	description?: string;
@@ -78,7 +82,7 @@ export const baseApi = createApi({
 	baseQuery: fetchBaseQuery({ baseUrl: 'https://dummyjson.com' }),
 	tagTypes: ['product'],
 	endpoints: (builder) => ({
-		getAllProducts: builder.query<IProduct[], void>({
+		getAllProducts: builder.query<TProducts, void>({
 			query: () => ({
 				url: '/products',
 				method: 'GET',
@@ -106,6 +110,5 @@ export const baseApi = createApi({
 export const {
 	useGetAllProductsQuery,
 	useGetProductDetailsQuery,
-	useGetCategoriesNameQuery,
 	useUpdateProductMutation,
 } = baseApi;
