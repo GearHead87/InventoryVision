@@ -1,4 +1,4 @@
-import { Button, Modal, Form, Input, Select, InputNumber } from 'antd';
+import { Button, Modal, Form, Input, Select, InputNumber, message } from 'antd';
 import {
 	EditOutlined,
 	LoadingOutlined,
@@ -10,12 +10,17 @@ import { useState } from 'react';
 import { useGetCategoryOption } from '../hooks/useGetCategoryOption';
 import TextArea from 'antd/es/input/TextArea';
 import moment from 'moment';
-import { useUpdateProductMutation } from '../redux/api/baseApi';
+import { IProduct, IUpdateProductValues, useUpdateProductMutation } from '../redux/api/baseApi';
 
-const ProductUpadateModelForm = ({ data }: object) => {
+interface ProductUpdateModelFormProps {
+	data: IProduct | undefined;
+}
+
+const ProductUpadateModelForm: React.FC<ProductUpdateModelFormProps> = ({ data }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const { categoryOption } = useGetCategoryOption();
-	const [updateProduct, { data: result, isLoading }] = useUpdateProductMutation();
+	const [updateProduct, { isLoading }] = useUpdateProductMutation();
+	const [messageApi, contextHolder] = message.useMessage();
 
 	const showModal = () => {
 		setIsModalOpen(true);
@@ -29,6 +34,13 @@ const ProductUpadateModelForm = ({ data }: object) => {
 		setIsModalOpen(false);
 	};
 
+	const successMessage = () => {
+		messageApi.open({
+			type: 'success',
+			content: 'Product Info Updated',
+		});
+	};
+
 	type FieldType = {
 		title?: string;
 		description?: string;
@@ -38,9 +50,17 @@ const ProductUpadateModelForm = ({ data }: object) => {
 		reviews?: object;
 	};
 
+	type TReview = {
+		rating: number;
+		comment: string;
+		date: string;
+		reviewerName: string;
+		reviewerEmail: string;
+	};
+
 	// Pre-fill the form with the initial reviews array
 	const initialValues = {
-		reviews: data.reviews.map((review) => ({
+		reviews: data?.reviews.map((review: TReview) => ({
 			...review,
 			date: moment(review.date),
 		})),
@@ -48,19 +68,26 @@ const ProductUpadateModelForm = ({ data }: object) => {
 
 	const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
 		// Add current date to new reviews
-		const updatedValues = {
+
+		const updatedValues: IUpdateProductValues = {
+			...data,
 			...values,
-			reviews: values.reviews.map((review, index) => {
-				const existingReview = data.reviews[index];
-				return {
-					...review,
-					date: existingReview ? existingReview.date : moment().toISOString(),
-				};
-			}),
+			price: parseInt(values.price ?? "0"),
+			reviews: (values.reviews as Array<TReview>).map(
+				(review: TReview, index: number): TReview => {
+					const existingReview = data?.reviews[index];
+					return {
+						...review,
+						date: existingReview ? existingReview.date : moment().toISOString(),
+					};
+				}
+			),
 		};
 		console.log('Updated Value =>', updatedValues);
-		updateProduct({ id: data.id, updatedValues });
-		console.log('Result From API =>', result);
+		if (data?.id) {
+			updateProduct({ id: data?.id, updatedValues });
+		}
+		successMessage();
 	};
 
 	const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
@@ -69,6 +96,7 @@ const ProductUpadateModelForm = ({ data }: object) => {
 
 	return (
 		<>
+			{contextHolder}
 			<Button type="primary" onClick={showModal}>
 				<EditOutlined key="edit" style={{ fontSize: '24px' }} />
 				Edit Product
@@ -77,7 +105,7 @@ const ProductUpadateModelForm = ({ data }: object) => {
 				title="Product Update"
 				open={isModalOpen}
 				okText={'Done'}
-				// okType='none'
+				okButtonProps={{ hidden: true }}
 				onOk={handleOk}
 				onCancel={handleCancel}
 			>
@@ -94,7 +122,7 @@ const ProductUpadateModelForm = ({ data }: object) => {
 					<Form.Item<FieldType>
 						label="Title"
 						name="title"
-						initialValue={data.title}
+						initialValue={data?.title}
 						rules={[{ required: true, message: 'Please input title!' }]}
 					>
 						<Input />
@@ -103,7 +131,7 @@ const ProductUpadateModelForm = ({ data }: object) => {
 					<Form.Item<FieldType>
 						label="Description"
 						name="description"
-						initialValue={data.description}
+						initialValue={data?.description}
 						rules={[{ required: true, message: 'Please input description!' }]}
 					>
 						<Input />
@@ -112,7 +140,7 @@ const ProductUpadateModelForm = ({ data }: object) => {
 					<Form.Item<FieldType>
 						label="Brand"
 						name="brand"
-						initialValue={data.brand}
+						initialValue={data?.brand}
 						rules={[{ required: true, message: 'Please input brand!' }]}
 					>
 						<Input />
@@ -121,7 +149,7 @@ const ProductUpadateModelForm = ({ data }: object) => {
 					<Form.Item<FieldType>
 						label="Category"
 						name="category"
-						initialValue={data.category}
+						initialValue={data?.category}
 						rules={[{ required: true, message: 'Please input category!' }]}
 					>
 						{/* <Input /> */}
@@ -131,7 +159,7 @@ const ProductUpadateModelForm = ({ data }: object) => {
 					<Form.Item<FieldType>
 						label="Price"
 						name="price"
-						initialValue={data.price}
+						initialValue={data?.price}
 						rules={[{ required: true, message: 'Please input price!' }]}
 					>
 						<Input />
