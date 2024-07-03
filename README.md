@@ -1,30 +1,74 @@
-# React + TypeScript + Vite
+# InventoryVision
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+InventoryVision is a frontend web application designed to manage inventory and track product information effectively.
 
-Currently, two official plugins are available:
+[InventoryVision](https://inventoryvision.netlify.app/){:target="_blank" rel="noopener"}
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **Product Management**: Add, update, and delete products with detailed information.
+- **Responsive Design**: User-friendly interface accessible on desktop and mobile devices.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Technologies Used
 
-- Configure the top-level `parserOptions` property like this:
+- **Frontend**: React.js, Redux, Ant Design, TypeScript
+- **API Integration**: Mock API (using JSON Server or similar) for simulating backend operations
+- **Deployment**: Netlify
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## Getting Started
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### Prerequisites
+
+- Node.js (v14 or later)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/GearHead87/InventoryVision.git
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd inventory-vision
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+### Running the Application
+
+1. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+2. Open your browser and navigate to `http://localhost:3000` to view the application.
+
+### Usage
+
+- **Admin Dashboard**: Access product management and category management features.
+- **Mock API**: Simulates backend operations such as fetching and updating product data.
+
+### Contributing
+
+Contributions are welcome! Please fork the repository and create a pull request with your changes.
+
+### License
+
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+
+### Acknowledgements
+
+- Ant Design for the comprehensive UI components.
+- Redux Toolkit for efficient state management.
+
+
+
